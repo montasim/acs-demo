@@ -1,0 +1,93 @@
+# Run E2E tests
+
+name: E2E tests for Sample
+
+on:
+  # Triggers the workflow on push or pull request events for main and release branches
+  push:
+    branches:
+      - main
+      - "release/**"
+  # Presubmit CI on PRs to all branches.
+  pull_request:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to run E2E from"
+        required: false
+        default: "main"
+
+env:
+  VV_COMMUNICATION_SERVICES_CONNECTION_STRING: ${{ secrets.COMMUNICATION_SERVICES_CONNECTION_STRING_E2E }}
+  VV_COSMOS_DB_NAME: "myDB"
+  VV_COSMOS_DB_CONNECTION_STRING: ${{ secrets.COSMOS_DB_CONNECTION_STRING_E2E }}
+
+jobs:
+  e2e-tests:
+    runs-on: windows-2019
+    name: Run e2e tests
+    steps:
+      # Checks-out your repository
+      - uses: actions/checkout@v3
+
+      # Check out onto desired branch to run e2e tests from
+      - name: Checkout branch
+        run: git checkout ${{ github.event.inputs.branch }}
+
+      # Ensure node version is great enough
+      - name: Use Node.js v14.19.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14.19.x"
+
+      # Install dependencies
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm install
+
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Install e2e test dependencies
+        working-directory: ./e2e-tests
+        run: |
+          npm install
+          npx playwright install
+
+      # Run Cosmos DB Emulator
+      - name: Run Cosmos DB Emulator
+        run: |
+          Write-Host "Launching Cosmos DB Emulator"
+          Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+          Start-CosmosDbEmulator
+
+      # Build and run e2e
+      - name: Build and run e2e tests
+        working-directory: ./e2e-tests
+        id: e2eTests
+        run: |
+          npm run build
+          npm run test
+
+      - name: Comment on PR
+        if: ${{ github.event_name == 'pull_request' && always() && steps.e2eTests.outcome == 'failure' && !contains( github.event.pull_request.labels.*.name, 'ui change') }}
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Failed to pass the UI Test. If this PR is for UI change and the error is snapshot mismatch, please add the latest snapshots.'
+            })
+
+      - name: Upload snapshots if failed
+        if: ${{ always() && steps.e2eTests.outcome == 'failure' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: snapshots
+          path: e2e-tests/test-results/
+          if-no-files-found: warn # warn, error, or ignore

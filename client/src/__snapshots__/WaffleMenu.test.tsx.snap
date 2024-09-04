@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WaffleMenu panel should have links to the book and visit page 1`] = `
+<div
+  className="ms-FocusZone css-151"
+  data-focuszone-id="FocusZone8"
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onMouseDownCapture={[Function]}
+>
+  <nav
+    aria-label="Navigate to expected page"
+    className="ms-Nav root-134"
+    role="navigation"
+  >
+    <div
+      className="ms-Nav-group is-expanded"
+    >
+      <div
+        className="ms-Nav-groupContent groupContent-142"
+      >
+        <ul
+          className="ms-Nav-navItems navItems-141"
+          role="list"
+        >
+          <li
+            className="ms-Nav-navItem navItem-140"
+            role="listitem"
+          >
+            <div
+              className="ms-Nav-compositeLink is-selected compositeLink-136"
+              name="Home"
+            >
+              <a
+                aria-current="page"
+                className="ms-Button ms-Button--action ms-Button--command ms-Nav-link link-152"
+                data-is-focusable={true}
+                href="./"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                title="Home"
+              >
+                <span
+                  className="ms-Button-flexContainer flexContainer-153"
+                  data-automationid="splitbuttonprimary"
+                >
+                  <div
+                    className="ms-Nav-linkText linkText-135"
+                  >
+                    Home
+                  </div>
+                </span>
+              </a>
+            </div>
+          </li>
+          <li
+            className="ms-Nav-navItem navItem-140"
+            role="listitem"
+          >
+            <div
+              className="ms-Nav-compositeLink compositeLink-136"
+              name="Book"
+            >
+              <a
+                className="ms-Button ms-Button--action ms-Button--command ms-Nav-link link-158"
+                data-is-focusable={true}
+                href="./book"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                title="Book"
+              >
+                <span
+                  className="ms-Button-flexContainer flexContainer-153"
+                  data-automationid="splitbuttonprimary"
+                >
+                  <div
+                    className="ms-Nav-linkText linkText-135"
+                  >
+                    Book
+                  </div>
+                </span>
+              </a>
+            </div>
+          </li>
+          <li
+            className="ms-Nav-navItem navItem-140"
+            role="listitem"
+          >
+            <div
+              className="ms-Nav-compositeLink compositeLink-136"
+              name="Visit"
+            >
+              <a
+                className="ms-Button ms-Button--action ms-Button--command ms-Nav-link link-158"
+                data-is-focusable={true}
+                href="./visit"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                title="Visit"
+              >
+                <span
+                  className="ms-Button-flexContainer flexContainer-153"
+                  data-automationid="splitbuttonprimary"
+                >
+                  <div
+                    className="ms-Nav-linkText linkText-135"
+                  >
+                    Visit
+                  </div>
+                </span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+`;
